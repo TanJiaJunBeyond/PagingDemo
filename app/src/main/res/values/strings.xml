@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="app_name">PagingDemo</string>
+
+    <string name="language_icon">语言图标</string>
+    <string name="star_icon">star图标</string>
+    <string name="fork_icon">fork图标</string>
+
+</resources>
