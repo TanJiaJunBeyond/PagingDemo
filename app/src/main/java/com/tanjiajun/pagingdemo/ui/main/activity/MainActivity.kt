@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity(), MainViewModel.Handlers {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         initViewModel()
-        initObservers()
         initUI()
+        initObservers()
         initData()
     }
 
