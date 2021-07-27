@@ -90,12 +90,8 @@ class MainActivity : AppCompatActivity(), MainViewModel.Handlers {
     private fun handleErrorView(isShowErrorView: Boolean) {
         if (isShowErrorView) {
             errorView
-                ?.let {
-                    binding.vsError.viewStub?.inflate()?.also { errorView = it }
-                }
-                ?: run {
-                    errorView?.visibility = View.VISIBLE
-                }
+                ?.run { visibility = View.VISIBLE }
+                ?: binding.vsError.viewStub?.inflate()?.also { errorView = it }
         } else {
             errorView?.visibility = View.GONE
         }
