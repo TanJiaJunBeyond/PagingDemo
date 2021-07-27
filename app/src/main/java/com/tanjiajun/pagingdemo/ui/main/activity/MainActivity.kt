@@ -46,20 +46,23 @@ class MainActivity : AppCompatActivity(), MainViewModel.Handlers {
         with(binding) {
             lifecycleOwner = this@MainActivity
             viewModel = this@MainActivity.viewModel
-
-            vsError.setOnInflateListener { _, inflated ->
-                DataBindingUtil.bind<LayoutErrorBinding>(inflated)?.run {
-                    lifecycleOwner = this@MainActivity
-                    viewModel = this@MainActivity.viewModel
-                    handlers = this@MainActivity
-                }
-            }
         }
+        initErrorView()
         initRecyclerView()
     }
 
     private fun initRecyclerView() {
         binding.rvRepository.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun initErrorView() {
+        binding.vsError.setOnInflateListener { _, inflated ->
+            DataBindingUtil.bind<LayoutErrorBinding>(inflated)?.run {
+                lifecycleOwner = this@MainActivity
+                viewModel = this@MainActivity.viewModel
+                handlers = this@MainActivity
+            }
+        }
     }
 
     private fun initObservers() {
