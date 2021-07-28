@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tanjiajun.pagingdemo.R
 import com.tanjiajun.pagingdemo.databinding.ActivityMainBinding
 import com.tanjiajun.pagingdemo.databinding.LayoutErrorBinding
+import com.tanjiajun.pagingdemo.ui.main.adapter.RepositoryAdapter
 import com.tanjiajun.pagingdemo.ui.main.viewmodel.MainViewModel
+import com.tanjiajun.pagingdemo.ui.viewModelFactory
 
 /**
  * Created by TanJiaJun on 7/25/21.
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity(), MainViewModel.Handlers {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
     }
 
     private fun initUI() {
@@ -68,6 +70,9 @@ class MainActivity : AppCompatActivity(), MainViewModel.Handlers {
     private fun initObservers() {
         viewModel.isShowLoadingView.observe(this, { handleLoadingView(it) })
         viewModel.isShowErrorView.observe(this, { handleErrorView(it) })
+        viewModel.repositories.observe(this, {
+            binding.rvRepository.adapter = RepositoryAdapter(it)
+        })
     }
 
     private fun handleLoadingView(isShowLoadingView: Boolean) {

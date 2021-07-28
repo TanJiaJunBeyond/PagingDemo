@@ -1,4 +1,4 @@
-package com.tanjiajun.pagingdemo.data.remote
+package com.tanjiajun.pagingdemo.data.remote.main
 
 import com.tanjiajun.pagingdemo.data.model.ListData
 import com.tanjiajun.pagingdemo.data.model.main.RepositoryData

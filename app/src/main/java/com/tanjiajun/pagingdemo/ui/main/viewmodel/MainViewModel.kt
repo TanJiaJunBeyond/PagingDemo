@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tanjiajun.pagingdemo.data.model.main.RepositoryData
 import com.tanjiajun.pagingdemo.data.repository.GitHubRepository
-import com.tanjiajun.pagingdemo.utils.yes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -36,23 +35,22 @@ class MainViewModel(
 
     fun getRepositories(languageName: String) {
         viewModelScope.launch {
+            _isShowLoadingView.value = true
             try {
                 withContext(Dispatchers.IO) {
                     val repositories: List<RepositoryData> =
                         repository.getRepositories(languageName)
                     withContext(Dispatchers.Main) {
-                        repositories
-                            .isNotEmpty()
-                            .yes {
-                                _repositories.value = repositories
-                                _isShowRepositoryView.value = true
-                            }
+                        if (repositories.isNotEmpty()) {
+                            _repositories.value = repositories
+                            _isShowRepositoryView.value = true
+                        }
                     }
                 }
             } catch (throwable: Throwable) {
                 _isShowErrorView.value = true
             } finally {
-                _isShowLoadingView.value = true
+                _isShowLoadingView.value = false
             }
         }
     }

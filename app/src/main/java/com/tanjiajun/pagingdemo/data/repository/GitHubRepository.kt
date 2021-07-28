@@ -1,7 +1,7 @@
 package com.tanjiajun.pagingdemo.data.repository
 
 import com.tanjiajun.pagingdemo.data.model.main.RepositoryData
-import com.tanjiajun.pagingdemo.data.remote.RepositoryRemoteDataSource
+import com.tanjiajun.pagingdemo.data.remote.main.RepositoryRemoteDataSource
 import java.time.LocalDateTime
 
 /**
