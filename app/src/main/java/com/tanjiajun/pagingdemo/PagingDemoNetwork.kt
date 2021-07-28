@@ -9,12 +9,12 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by TanJiaJun on 7/29/21.
  */
-private val okHttpClient = OkHttpClient.Builder()
+private val okHttpClient: OkHttpClient = OkHttpClient.Builder()
     .connectTimeout(PagingDemoConfiguration.CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
     .readTimeout(PagingDemoConfiguration.READ_TIMEOUT, TimeUnit.MILLISECONDS)
     .build()
 
-val retrofit = Retrofit.Builder()
+val retrofit: Retrofit = Retrofit.Builder()
     .client(okHttpClient)
     .addConverterFactory(ScalarsConverterFactory.create())
     .addConverterFactory(GsonConverterFactory.create())
