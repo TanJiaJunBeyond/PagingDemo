@@ -31,18 +31,21 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    // AppCompat
-    implementation "androidx.appcompat:appcompat:$appCompactVersion"
-
-    // ConstraintLayout
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
-
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     implementation "androidx.core:core-ktx:$coreKtxVersion"
 
     // Kotlin Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion"
+
+    // AppCompat
+    implementation "androidx.appcompat:appcompat:$appCompactVersion"
+
+    // ConstraintLayout
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+
+    // SwipeRefreshLayout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"

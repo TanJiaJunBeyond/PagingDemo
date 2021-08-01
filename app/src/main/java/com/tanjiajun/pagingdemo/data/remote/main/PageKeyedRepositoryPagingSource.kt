@@ -27,11 +27,16 @@ class PageKeyedRepositoryPagingSource(
         try {
             val position: Int = params.key ?: GITHUB_STARTING_PAGE_INDEX
             val data: List<RepositoryData> =
-                remoteDataSource.fetchRepositories(languageName, fromDateTime)
+                remoteDataSource.fetchRepositories(
+                    languageName = languageName,
+                    fromDateTime = fromDateTime,
+                    page = position,
+                    pageSize = params.loadSize
+                )
             LoadResult.Page(
                 data = data,
                 prevKey = if (position == GITHUB_STARTING_PAGE_INDEX) null else position - 1,
-                nextKey = position + params.loadSize
+                nextKey = if (data.isNullOrEmpty()) null else position + 1
             )
         } catch (ioException: IOException) {
             LoadResult.Error(ioException)

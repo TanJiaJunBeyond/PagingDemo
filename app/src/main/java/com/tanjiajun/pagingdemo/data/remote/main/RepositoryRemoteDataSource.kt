@@ -21,7 +21,9 @@ class RepositoryRemoteDataSource(
 
     suspend fun fetchRepositories(
         languageName: String,
-        fromDateTime: LocalDateTime
+        fromDateTime: LocalDateTime,
+        page: Int,
+        pageSize: Int
     ): List<RepositoryData> =
         service
             .fetchRepositories(
@@ -29,7 +31,10 @@ class RepositoryRemoteDataSource(
                     fromDateTime.format(
                         dateFormatForRepository()
                     )
-                }"
+                }",
+                sort = "stars",
+                page = page,
+                perPage = pageSize
             )
             .items
             ?.map { RepositoryMapper.toRepositoryData(it) }
@@ -40,7 +45,9 @@ class RepositoryRemoteDataSource(
         @GET("search/repositories")
         suspend fun fetchRepositories(
             @Query("q") query: String,
-            @Query("sort") sort: String = "stars"
+            @Query("sort") sort: String,
+            @Query("page") page: Int,
+            @Query("per_page") perPage: Int
         ): ListData<RepositoryResponseData>
 
     }
