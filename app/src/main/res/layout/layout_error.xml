@@ -45,6 +45,7 @@
             android:shadowColor="@color/common_button_shadow_color"
             android:shadowDy="3"
             android:text="@string/retry"
+            android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

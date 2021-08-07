@@ -18,7 +18,6 @@ import com.tanjiajun.pagingdemo.ui.NetworkStateAdapter
 import com.tanjiajun.pagingdemo.ui.main.adapter.RepositoryAdapter
 import com.tanjiajun.pagingdemo.ui.main.viewmodel.MainViewModel
 import com.tanjiajun.pagingdemo.ui.viewModelFactory
-import com.tanjiajun.pagingdemo.utils.asMergedLoadStates
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
@@ -41,11 +40,10 @@ class MainActivity : AppCompatActivity(), MainViewModel.Handlers, NetworkStateAd
         initViewModel()
         initUI()
         initObservers()
-        initData()
     }
 
     override fun onRetryClick(view: View) {
-        initData()
+        adapter.retry()
     }
 
     private fun initViewModel() {
@@ -63,16 +61,13 @@ class MainActivity : AppCompatActivity(), MainViewModel.Handlers, NetworkStateAd
     }
 
     private fun initRecyclerView() {
+        adapter = RepositoryAdapter()
         with(binding.rvRepository) {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = RepositoryAdapter()
-                .apply {
-                    withLoadStateHeaderAndFooter(
-                        header = NetworkStateAdapter(this@MainActivity),
-                        footer = NetworkStateAdapter(this@MainActivity)
-                    )
-                }
-                .also { this@MainActivity.adapter = it }
+            adapter = this@MainActivity.adapter.withLoadStateHeaderAndFooter(
+                header = NetworkStateAdapter(this@MainActivity),
+                footer = NetworkStateAdapter(this@MainActivity)
+            )
         }
         adapter.addLoadStateListener {
             val isShowLoadingView = it.refresh is LoadState.Loading && adapter.itemCount == 0
@@ -90,7 +85,6 @@ class MainActivity : AppCompatActivity(), MainViewModel.Handlers, NetworkStateAd
         }
         lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow
-                .asMergedLoadStates()
                 .distinctUntilChangedBy { it.refresh }
                 .filter { it.refresh is LoadState.NotLoading }
                 .collectLatest { binding.rvRepository.scrollToPosition(0) }
@@ -141,10 +135,6 @@ class MainActivity : AppCompatActivity(), MainViewModel.Handlers, NetworkStateAd
         } else {
             errorView?.visibility = View.GONE
         }
-    }
-
-    private fun initData() {
-        viewModel.getRepositories("Kotlin")
     }
 
 }

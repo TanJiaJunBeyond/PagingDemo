@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 /**
  * Created by TanJiaJun on 7/31/21.
  */
-class PageKeyedRepositoryPagingSource(
+class RepositoryPagingSource(
     private val remoteDataSource: RepositoryRemoteDataSource,
     private val languageName: String,
     private val fromDateTime: LocalDateTime
@@ -19,8 +19,8 @@ class PageKeyedRepositoryPagingSource(
     override fun getRefreshKey(state: PagingState<Int, RepositoryData>): Int? =
         state.anchorPosition
             ?.let {
-                state.closestPageToPosition(it)?.itemsBefore?.plus(1)
-                    ?: state.closestPageToPosition(it)?.itemsAfter?.minus(1)
+                state.closestPageToPosition(it)?.prevKey?.plus(1)
+                    ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
             }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RepositoryData> =
@@ -44,7 +44,7 @@ class PageKeyedRepositoryPagingSource(
             LoadResult.Error(httpException)
         }
 
-    companion object {
+    private companion object {
         const val GITHUB_STARTING_PAGE_INDEX = 1
     }
 
